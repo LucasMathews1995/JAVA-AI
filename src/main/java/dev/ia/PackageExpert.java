@@ -7,7 +7,7 @@ import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
 
-@RegisterAiService(retrievalAugmentor = RagConfiguration.class)
+@RegisterAiService(retrievalAugmentor = RagConfiguration.class, tools = BookingTools.class)
 public interface PackageExpert {
 
 

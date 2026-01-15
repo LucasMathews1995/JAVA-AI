@@ -1,62 +1,26 @@
-# agencia-viagem-ai
+# ✈️ Mundo Viagens AI - Assistente de Viagens Inteligente
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Quarkus](https://img.shields.io/badge/Quarkus-Supersonic-4695eb?style=for-the-badge&logo=quarkus&logoColor=white)
+![LangChain4j](https://img.shields.io/badge/LangChain4j-AI_Integration-green?style=for-the-badge)
+![Ollama](https://img.shields.io/badge/Ollama-Local_LLM-white?style=for-the-badge&logo=ollama&logoColor=black)
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+> Um microsserviço de Agente de Viagens Autônomo que utiliza **IA Generativa (LLMs)** com **Tool Calling** seguro para gerenciar reservas, responder dúvidas e interagir com dados reais do usuário.
 
-## Running the application in dev mode
+## 🧠 Sobre o Projeto
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
-```
+Este projeto não é apenas um chatbot wrapper. É uma implementação robusta de **Arquitetura de Agentes** onde a IA possui ferramentas ("Tools") para executar ações no banco de dados.
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+O diferencial principal é a arquitetura **Zero Trust**: a IA nunca recebe acesso direto ao banco. Todas as ferramentas injetam o contexto de segurança (JWT) automaticamente, garantindo que um usuário nunca acesse dados de outro, independente do prompt utilizado.
 
-## Packaging and running the application
+### Principais Funcionalidades
+* **Chat Contextual:** Memória de conversação para entender pedidos complexos.
+* **RAG & Tool Calling:** A IA decide quando consultar o banco de dados para ver passagens, preços ou datas.
+* **Segurança via Token:** Integração profunda entre o `JsonWebToken` do Quarkus e as Tools do LangChain4j.
+* **Busca Semântica/Híbrida:** Consultas otimizadas com Hibernate Panache.
 
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+## 🛠️ Tech Stack
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/agencia-viagem-ai-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Related Guides
-
-- LangChain4j Ollama ([guide](https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html)): Provides the basic integration of Ollama with LangChain4j
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
-# JAVA-AI
+* **Core:** Java 21 + Quarkus (Supersonic Subatomic Java)
+* **AI Framework:** LangChain4j
+* **LLM Engine:** Ollama (Llama 3 / Mistral)

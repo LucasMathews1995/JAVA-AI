@@ -1,20 +1,36 @@
 package dev.ia.model;
 
-import dev.ia.BookingStatus;
-import dev.ia.Category;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
-import java.util.List;
 
+@Entity
+@Table(name = "tb_reservas")
 public class Booking extends PanacheEntity {
     public String userId;
-    String customerName;
-    String destination ;
-    LocalDate startDate;
-    LocalDate endDate;
-    BookingStatus status;
-    Category category;
+    public String customerName;
+   public String destination ;
+   public LocalDate startDate;
+   public LocalDate endDate;
+   public BookingStatus status;
+   public Category category;
 
 
+
+
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "userId='" + userId + '\'' +
+                ", customerName='" + customerName + '\'' +
+                ", destination='" + destination + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status=" + status +
+                ", category=" + category +
+                '}';
+    }
 }

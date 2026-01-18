@@ -1,4 +1,4 @@
-package dev.ia;
+package dev.ia.model;
 
 public enum Category {
 ADVENTURE, TREASURE

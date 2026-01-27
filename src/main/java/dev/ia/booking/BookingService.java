@@ -1,13 +1,8 @@
-package dev.ia.service;
+package dev.ia.booking;
 
 
-import dev.ia.dto.BookingDTO;
-import dev.ia.exceptions.BookingNotFoundExceptions;
-import dev.ia.exceptions.DateInvertedException;
-import dev.ia.model.Booking;
-import dev.ia.model.BookingStatus;
-import dev.ia.model.Category;
-import dev.ia.repository.BookingRepository;
+import dev.ia.booking.exceptions.BookingNotFoundExceptions;
+import dev.ia.booking.exceptions.DateInvertedException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -34,12 +29,13 @@ JsonWebToken jwt;
         throw  new BookingNotFoundExceptions("Nenhum agendamento localizado");
     }
     List<Booking> lista = bookingRepository.buscarPorUsuario(userIdDoToken);
+
     if(lista.isEmpty()){
         throw new BookingNotFoundExceptions("Nenhum agendamento localizado");
     }
 
 
-    return lista;
+    return lista.stream().filter(x-> x.status!= BookingStatus.CANCELLED).toList();
 
 
 }
@@ -95,10 +91,24 @@ public Booking saveBooking(BookingDTO dto ) {
     booking.startDate = dto.startDate();
     booking.endDate = dto.endDate();
     booking.status = BookingStatus.PENDING;
+    booking.destination = dto.destination();
     bookingRepository.persist(booking);
 
     return booking;
 
+}
+
+@Transactional
+public Booking cancelarReserva(BookingDTO dto ) {
+        String userIdDoToken = jwt.getSubject();
+        if(userIdDoToken == null){
+            throw new BookingNotFoundExceptions("Nenhum agendamento localizado");
+        }
+       Booking booking =  bookingRepository.findByUserNameAndDestination(jwt.getName(),dto.destination()).orElseThrow(()-> new BookingNotFoundExceptions("Nenhum agendamento localizado"));
+
+        booking.status = BookingStatus.CANCELLED;
+     bookingRepository.persist(booking);
+     return booking;
 }
 
 public List<Booking> getAllBookings() {

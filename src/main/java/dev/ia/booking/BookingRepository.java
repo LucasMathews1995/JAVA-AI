@@ -1,11 +1,12 @@
-package dev.ia.repository;
+package dev.ia.booking;
 
-import dev.ia.model.Booking;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
 @ApplicationScoped
 public class BookingRepository implements PanacheRepository<Booking> {
 
@@ -15,8 +16,8 @@ public class BookingRepository implements PanacheRepository<Booking> {
     public List<Booking> findByCustomerName(String name) {
         return list("customerName", name);
     }
-    public List<Booking> buscarPorUsuario(String usuarioId) {
-        return list("usuarioId", usuarioId);
+    public List<Booking> buscarPorUsuario(String userId) {
+        return list("userId", userId);
     }
 
     public List<Booking> buscarPorPeriodo(String userId, LocalDate inicio, LocalDate fim) {
@@ -25,6 +26,10 @@ public class BookingRepository implements PanacheRepository<Booking> {
     public List<Booking> findByDestino(Long userId, String cidade) {
 
         return list("userId = ?1 and lower(destination) like lower(?2)", userId, "%" + cidade + "%");
+    }
+
+    public Optional<Booking> findByUserNameAndDestination(String userName, String destination) {
+        return find ("userName = ?1 and lower(destination) like lower(?2)",userName,"%" + destination + "%").firstResultOptional();
     }
 
 }

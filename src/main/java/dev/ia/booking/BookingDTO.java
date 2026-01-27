@@ -1,6 +1,5 @@
-package dev.ia.dto;
+package dev.ia.booking;
 
-import dev.ia.model.Category;
 import jakarta.annotation.Nonnull;
 
 import java.time.LocalDate;

@@ -29,7 +29,7 @@ public class TravelAgentResource {
         if(userName!= null){
             try {
         SecurityContext.setCurrentUser(userName);
-        return assistant.chat(userName,question);
+     return assistant.chat(userName,question);
             }finally {
                 SecurityContext.clearCurrentUser();
             }

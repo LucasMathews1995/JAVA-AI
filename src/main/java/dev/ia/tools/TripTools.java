@@ -4,6 +4,7 @@ import dev.ia.booking.Category;
 import dev.ia.trip.TripDTO;
 import dev.ia.trip.TripService;
 import dev.ia.trip.exceptions.TripAlreadyExistsException;
+import dev.ia.trip.exceptions.TripNotFoundException;
 import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -31,6 +32,24 @@ public String saveTrip(
     }catch(TripAlreadyExistsException e){
        return e.getMessage();
     }
+}
+    @Tool("Busca detalhes de pacotes de viagem disponíveis procurando pelo nome do destino (cidade ou país).")
+public String getTripByDestination(@P("O nome da cidade de destino") String destination){
+    try {
+        return tripService.getByDestination(destination);
+    }catch (TripNotFoundException e){
+        return e.getMessage();
+    }
+}
+@Tool("Remova os pacotes de viagem procurando pelo nome de destino (cidade ou pais) e com a atividade informada(atividades)")
+public String removeTrip(@P("O nome da cidade de destino") String destination,@P("atividade informada") String atividades){
+
+try{
+    return tripService.removerTrip(destination,atividades);
+}catch(TripNotFoundException e){
+    return e.getMessage();
+}
+
 }
 
 

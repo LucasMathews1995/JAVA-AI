@@ -11,7 +11,12 @@ import java.util.Optional;
 public class TripRepository implements PanacheRepository<Trip> {
 
     public Optional<Trip> findByDestination(String destination){
-        return find("destination",destination).firstResultOptional();
+        return find("destination ILIKE ?1",destination.trim()).firstResultOptional();
     }
+    public Optional<Trip> findByDestinationAndAtividades(String destination,String atividades){
+        return find("destination ILIKE ?1 and atividades ILIKE ?2","%"+destination+"%","%"+atividades+"%").firstResultOptional();
+    }
+
+
 
 }

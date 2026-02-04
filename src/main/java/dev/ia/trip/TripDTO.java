@@ -1,7 +1,7 @@
 package dev.ia.trip;
 
-import dev.ia.booking.Category;
+import dev.ia.trip.Category;
 
-public record TripDTO(String destination, Integer duracao, String descricao, String atividades, Double preco, String politicaCancelamento,
+public record TripDTO(String destination, Integer duracao, String descricao, String atividades, Double preco, Integer politicaCancelamento,
                       Category categoria) {
 }

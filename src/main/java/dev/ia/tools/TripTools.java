@@ -1,6 +1,6 @@
 package dev.ia.tools;
 
-import dev.ia.booking.Category;
+import dev.ia.trip.Category;
 import dev.ia.trip.TripDTO;
 import dev.ia.trip.TripService;
 import dev.ia.trip.exceptions.TripAlreadyExistsException;
@@ -22,11 +22,12 @@ public String saveTrip(
         @P("Descricao da viagem ")String descricao,
         @P("Atividades que pode fazer por lá")String atividades,
         @P("Preco da viagem")Double preco,
-        @P("Politica de cancelamento")String politicaCancelamento,
-        @P("Categoria da viagem ADVENTURE ou TREASURE ")String cat
+        @P("Politica de cancelamento")Integer politicaCancelamento,
+        @P("Categoria da viagem ")String cat
 ){
-    TripDTO tripDTO = new TripDTO(destination,duracao,descricao,atividades,preco,politicaCancelamento, Category.valueOf(cat.toUpperCase()));
 
+    TripDTO tripDTO = new TripDTO(destination,duracao,descricao,atividades,preco,politicaCancelamento, Category.valueOf(cat.toUpperCase()));
+    System.out.println(tripDTO);
     try{
         return tripService.saveTrip(tripDTO);
     }catch(TripAlreadyExistsException e){
@@ -41,16 +42,40 @@ public String getTripByDestination(@P("O nome da cidade de destino") String dest
         return e.getMessage();
     }
 }
-@Tool("Remova os pacotes de viagem procurando pelo nome de destino (cidade ou pais) e com a atividade informada(atividades)")
-public String removeTrip(@P("O nome da cidade de destino") String destination,@P("atividade informada") String atividades){
-
+@Tool("Remova os pacotes de viagem procurando pelo nome de destino (cidade ou pais) e com a categoria informada(category)")
+public String removeTrip(@P("O nome da cidade de destino") String destination,@P("categoria informada") String cat){
+    Category category  = Category.valueOf(cat.toUpperCase());
 try{
-    return tripService.removerTrip(destination,atividades);
+    return tripService.removerTrip(destination,category);
 }catch(TripNotFoundException e){
     return e.getMessage();
 }
 
 }
+@Tool("Atualize os pacotes de viagem procurando pelo nome antigo de destino (cidade ou pais) e com a antiga atividade informada(atividades) e atualize com as informações que ele dê " +
+        ",Extraia tudo destino  ,duracao em dias que pode ficar , descricao da viagem , preco ,  as atividades , a politica de cancelamento e  a categoria da viagem ")
+    public String update(
+        @P("O nome da cidade de destino") String destinationOld,
+        @P("atividade informada") String catOld,
+        @P("Qual o destino da viagem a armazenar") String destination,
+        @P("Duração da viagem em dias")Integer duracao,
+        @P("Descricao da viagem ")String descricao,
+        @P("Atividades que pode fazer por lá")String atividades,
+        @P("Preco da viagem")Double preco,
+        @P("Politica de cancelamento")Integer politicaCancelamento,
+        @P("Categoria da viagem  ")String cat
+){
+    Category categoryOld  = Category.valueOf(catOld.toUpperCase());
+    TripDTO trip = new TripDTO(destination,duracao,descricao,atividades,preco,politicaCancelamento,Category.valueOf(cat.toUpperCase()));
+    try{
+        return tripService.updateTrip(destinationOld,categoryOld,trip);
+    }catch (TripNotFoundException e){
+        return e.getMessage();
+    }
+
+}
+
+
 
 
 

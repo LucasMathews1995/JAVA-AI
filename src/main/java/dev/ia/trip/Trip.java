@@ -1,17 +1,15 @@
 package dev.ia.trip;
 
+import dev.ia.trip.Category;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
 
 
 @Entity
 @Table(name = "tb_viagens")
 public class Trip extends PanacheEntity {
 
-    @Column(unique = true,length = 100,nullable = false)
+    @Column(length = 100,nullable = false)
   public  String destination;
     public  Integer duracao;
     public String descricao;
@@ -19,8 +17,11 @@ public class Trip extends PanacheEntity {
     public String atividades;
     @Column(nullable = false)
     public Double preco;
-    @Column(nullable = false)
-    public String politicaCancelamento;
+    @Column(nullable = false, name = "politica_cancelamento")
+    public Integer politicaCancelamento;
+    @Column(nullable = false )
+    @Enumerated(EnumType.STRING)
+    public Category category;
 
 
 

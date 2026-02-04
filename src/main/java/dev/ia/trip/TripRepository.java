@@ -13,10 +13,12 @@ public class TripRepository implements PanacheRepository<Trip> {
     public Optional<Trip> findByDestination(String destination){
         return find("destination ILIKE ?1",destination.trim()).firstResultOptional();
     }
-    public Optional<Trip> findByDestinationAndAtividades(String destination,String atividades){
-        return find("destination ILIKE ?1 and atividades ILIKE ?2","%"+destination+"%","%"+atividades+"%").firstResultOptional();
+    public Optional<Trip> findByDestinationAndCategory(String destination,Category category){
+        return find("destination ILIKE ?1 and category ILIKE ?2","%"+destination+"%","%"+category+"%").firstResultOptional();
     }
-
+    public Optional<Trip> findByDestinationAndCategoryAndDuracao(String destination, Category category, int duracao){
+        return find("destination ILIKE ?1 and category = ?2 and duracao = ?3 ","%"+destination+"%",category,duracao).firstResultOptional();
+    }
 
 
 }
